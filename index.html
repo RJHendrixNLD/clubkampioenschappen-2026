@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Deelnemersprogramma TC Vollenhove</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+
+/* Layout: baanband als kop, daarna per dag een raster ronde × baan; standen als scoreborden per categorie */
+:root {
+  --bg: #f2f5f1; --surface: #ffffff; --surface-2: #e8ede6; --ink: #15211a; --muted: #5a6a60; --line: #d2dbd3;
+  --court: #1e5a42; --court-2: #174734; --court-ink: #ffffff; --ball: #dbe84c;
+  --ok: #2b7a4b; --ok-bg: #e2f2e7; --warn: #a35f00; --warn-bg: #fff1d6; --bad: #b3261e; --bad-bg: #fde6e3;
+  --c-HD7: #2a68ad; --c-HD8: #3b3f9e; --c-DD7: #b03a6e; --c-DD8: #7a3ea6; --c-GD7: #2c8655; --c-GD8: #a8640f;
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e1511; --surface: #16201a; --surface-2: #1d2a22; --ink: #e5ece7; --muted: #9aaba0; --line: #2b3a31;
+  --court: #2f7a5b; --court-2: #20573f; --court-ink: #f4fbf6; --ball: #dbe84c;
+  --ok: #72d39d; --ok-bg: #123020; --warn: #f2b453; --warn-bg: #3a2a0d; --bad: #ff8d84; --bad-bg: #3d1714;
+  --c-HD7: #82b4ec; --c-HD8: #a9acf2; --c-DD7: #f190bb; --c-DD8: #c99cf1; --c-GD7: #82d6a6; --c-GD8: #f0bb63;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e1511; --surface: #16201a; --surface-2: #1d2a22; --ink: #e5ece7; --muted: #9aaba0; --line: #2b3a31;
+  --court: #2f7a5b; --court-2: #20573f; --court-ink: #f4fbf6; --ball: #dbe84c;
+  --ok: #72d39d; --ok-bg: #123020; --warn: #f2b453; --warn-bg: #3a2a0d; --bad: #ff8d84; --bad-bg: #3d1714;
+  --c-HD7: #82b4ec; --c-HD8: #a9acf2; --c-DD7: #f190bb; --c-DD8: #c99cf1; --c-GD7: #82d6a6; --c-GD8: #f0bb63;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--court); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* kop */
+.kop { background: var(--court); color: var(--court-ink); position: relative; overflow: hidden; }
+.kop::before { /* baanlijnen */
+  content: ""; position: absolute; inset: 14px -40px; pointer-events: none; opacity: .22;
+  border-top: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  background:
+    linear-gradient(currentColor, currentColor) 0 22% / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) 0 78% / 100% 2px no-repeat;
+}
+.kop .wrap { position: relative; padding-block: 26px 18px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.eyebrow { font-family: var(--f-display); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-size: 14px; opacity: .85; display: flex; align-items: center; gap: 8px; }
+.eyebrow .bal { width: 12px; height: 12px; border-radius: 50%; background: var(--ball); box-shadow: inset -2px -1px 0 rgba(0,0,0,.18); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(30px, 5vw, 46px); line-height: 1; margin: 6px 0 4px; letter-spacing: .01em; text-wrap: balance; }
+.sub { opacity: .85; font-size: 15px; }
+.kerncijfers { display: flex; gap: 22px; flex-wrap: wrap; }
+.kc { display: flex; flex-direction: column; }
+.kc b { font-family: var(--f-display); font-size: 30px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.kc span { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+.kc.alarm b { color: var(--ball); }
+
+/* tabs */
+.tabs { background: var(--court-2); color: var(--court-ink); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--court-2); }
+.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; }
+.tab { background: none; border: 0; padding: 12px 14px 10px; font-family: var(--f-display); font-size: 18px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: inherit; opacity: .72; border-bottom: 3px solid transparent; white-space: nowrap; }
+.tab[aria-selected="true"] { opacity: 1; border-bottom-color: var(--ball); }
+.tab .tel { font-family: var(--f-mono); font-size: 12px; background: var(--ball); color: #1b2410; border-radius: 10px; padding: 1px 6px; margin-left: 6px; vertical-align: 2px; }
+
+main { padding-block: 20px 60px; }
+.balk { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+.balk .groei { flex: 1 1 200px; }
+.veld { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+.veld input, .veld select, .veld textarea, .inp { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; color: var(--ink); min-width: 0; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: none; padding: 7px 12px; font-weight: 600; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--court); color: var(--court-ink); }
+.knop { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 6px; font-weight: 600; }
+.knop:hover { border-color: var(--court); }
+.knop.hoofd { background: var(--court); color: var(--court-ink); border-color: var(--court); }
+.knop.gevaar { color: var(--bad); }
+.knop:disabled { opacity: .5; cursor: not-allowed; }
+.klein { font-size: 13px; padding: 5px 10px; }
+
+/* meldingen */
+.melding { border-radius: var(--r); padding: 12px 14px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px; }
+.melding.bad { background: var(--bad-bg); }
+.melding.warn { background: var(--warn-bg); }
+.melding.info { background: var(--surface-2); }
+.melding h3 { margin: 0; font-size: 15px; }
+.melding ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.melding li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.melding li .tekst { flex: 1 1 260px; min-width: 0; }
+
+/* dagnavigatie */
+.dagnav { display: flex; gap: 6px; flex-wrap: wrap; }
+.dagnav a { text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font-weight: 600; font-size: 14px; }
+.dagnav a.vandaag { border-color: var(--court); box-shadow: inset 0 -3px 0 var(--ball); }
+
+/* dag */
+.dag { margin-bottom: 26px; scroll-margin-top: 70px; }
+.dag > header { display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 4px; margin-bottom: 10px; }
+.dag h2 { font-family: var(--f-display); font-size: 26px; margin: 0; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.dag .datum { color: var(--muted); font-weight: 600; }
+.dag .teller { margin-left: auto; color: var(--muted); font-size: 13px; }
+.ronde { display: grid; grid-template-columns: 92px repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 8px; }
+.tijdvak { display: flex; flex-direction: column; justify-content: center; padding: 4px 0; }
+.tijdvak b { font-family: var(--f-display); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.tijdvak span { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); }
+@media (max-width: 760px) {
+  .ronde { grid-template-columns: minmax(0, 1fr); }
+  .tijdvak { flex-direction: row; gap: 10px; align-items: baseline; justify-content: flex-start; padding-top: 6px; }
+}
+
+/* wedstrijdkaart */
+.kaart { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 9px 11px 10px; text-align: left; width: 100%; display: flex; flex-direction: column; gap: 6px; min-height: 108px; color: var(--ink); }
+button.kaart:hover { border-color: var(--court); }
+.kaart .top { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.kaart .baan { margin-left: auto; font-family: var(--f-display); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 13px; }
+.tag { --c: var(--muted); font-family: var(--f-display); font-weight: 700; font-size: 13.5px; letter-spacing: .05em; color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent); border-radius: 4px; padding: 0 6px; line-height: 20px; }
+.tag[data-c="HD7"] { --c: var(--c-HD7); } .tag[data-c="HD8"] { --c: var(--c-HD8); } .tag[data-c="DD7"] { --c: var(--c-DD7); }
+.tag[data-c="DD8"] { --c: var(--c-DD8); } .tag[data-c="GD7"] { --c: var(--c-GD7); } .tag[data-c="GD8"] { --c: var(--c-GD8); }
+.teams { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; align-items: center; font-size: 14px; line-height: 1.25; }
+.teams .tn { min-width: 0; overflow-wrap: anywhere; }
+.teams .tn.w { font-weight: 700; }
+.teams .tn.leeg { color: var(--muted); font-style: italic; }
+.teams .sc { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabular-nums; display: flex; gap: 6px; justify-content: flex-end; }
+.teams .sc i { font-style: normal; width: 1.3em; text-align: center; color: var(--muted); }
+.teams .sc i.w { color: var(--ink); font-weight: 700; }
+.kaart .voet { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12px; }
+.pil { border-radius: 10px; padding: 1px 8px; font-weight: 600; font-size: 12px; }
+.pil.ok { background: var(--ok-bg); color: var(--ok); }
+.pil.warn { background: var(--warn-bg); color: var(--warn); }
+.pil.bad { background: var(--bad-bg); color: var(--bad); }
+.pil.neutraal { background: var(--surface-2); color: var(--muted); }
+.kaart.conflict { border-color: var(--bad); box-shadow: inset 0 0 0 1px var(--bad); }
+.kaart.gedimd { opacity: .32; }
+.kaart.licht { border-color: var(--court); box-shadow: inset 0 0 0 2px var(--court); }
+.cel-leeg { border: 1px dashed var(--line); border-radius: var(--r); min-height: 108px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--muted); font-size: 13px; gap: 2px; }
+.cel-leeg b { font-family: var(--f-display); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.cel-jeugd { background: repeating-linear-gradient(135deg, var(--surface-2) 0 8px, transparent 8px 16px); border-style: solid; }
+
+/* weekoverzicht */
+.scroll { overflow-x: auto; }
+table.week { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 860px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); font-size: 13px; }
+table.week th, table.week td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 6px 7px; vertical-align: top; text-align: left; }
+table.week th { font-family: var(--f-display); text-transform: uppercase; letter-spacing: .05em; font-size: 15px; background: var(--surface-2); }
+table.week td.rk { white-space: nowrap; color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
+table.week tr.rgrens td { border-top: 2px solid var(--ink); }
+.mini { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0; color: var(--ink); line-height: 1.25; }
+.mini .nm { display: block; color: var(--ink); }
+.mini .sc { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
+.mini.conflict .nm { color: var(--bad); }
+
+/* standen */
+.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); gap: 18px; align-items: start; }
+.cat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 14px 12px; min-width: 0; }
+.cat h2 { font-family: var(--f-display); font-size: 24px; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.cat h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 12px 0 4px; }
+table.stand { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+table.stand th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; text-align: right; padding: 4px 5px; border-bottom: 1px solid var(--line); }
+table.stand td { padding: 6px 5px; border-bottom: 1px solid var(--line); text-align: right; font-family: var(--f-mono); font-size: 12.5px; }
+table.stand th:nth-child(2), table.stand td:nth-child(2) { text-align: left; }
+table.stand td:nth-child(2) { font-family: var(--f-body); font-size: 14px; }
+table.stand td.pos { font-family: var(--f-display); font-size: 18px; font-weight: 700; text-align: center; width: 28px; }
+table.stand tr.eerste td.pos { color: var(--court); }
+table.stand .uitleg { display: block; font-size: 12px; color: var(--muted); }
+.kampioen { margin-top: 10px; display: flex; align-items: center; gap: 10px; background: var(--surface-2); border-radius: 6px; padding: 8px 10px; flex-wrap: wrap; }
+.kampioen b { font-family: var(--f-display); font-size: 18px; letter-spacing: .03em; }
+.finale-blok { margin-top: 10px; border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+.regels { color: var(--muted); font-size: 13px; max-width: 75ch; margin-top: 20px; }
+.regels ol { padding-left: 20px; margin: 6px 0; }
+
+/* verhinderingen */
+.form-rij { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; margin-bottom: 16px; }
+.form-rij .veld { flex: 1 1 160px; }
+.chk { display: inline-flex; gap: 5px; align-items: center; font-size: 14px; color: var(--ink); }
+.lijst { display: flex; flex-direction: column; gap: 6px; }
+.vh { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; }
+.vh .wie { font-weight: 700; min-width: 0; }
+.vh .wanneer { color: var(--muted); }
+.vh .knop { margin-left: auto; }
+
+/* dialoog */
+dialog { border: 0; border-radius: 12px; padding: 0; background: var(--surface); color: var(--ink); width: min(680px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+dialog::backdrop { background: rgba(8, 18, 12, .55); }
+.dl { display: flex; flex-direction: column; max-height: calc(100dvh - 24px); }
+.dl > header { padding: 14px 18px 10px; border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: flex-start; }
+.dl > header h2 { margin: 0; font-family: var(--f-display); font-size: 24px; font-weight: 700; line-height: 1.1; }
+.dl > header p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+.dl > header .sluit { margin-left: auto; background: none; border: 0; font-size: 24px; line-height: 1; color: var(--muted); padding: 2px 6px; }
+.dl .romp { padding: 14px 18px; overflow: auto; display: flex; flex-direction: column; gap: 14px; }
+.dl > footer { padding: 12px 18px; border-top: 1px solid var(--line); display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.sets { display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, 58px); gap: 6px 8px; align-items: center; }
+.sets .kopje { font-size: 12px; color: var(--muted); text-align: center; text-transform: uppercase; letter-spacing: .06em; }
+.sets input { width: 100%; text-align: center; font-family: var(--f-mono); font-size: 16px; padding: 7px 4px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.sets .tnaam { font-size: 14px; min-width: 0; overflow-wrap: anywhere; }
+.fout { color: var(--bad); font-weight: 600; font-size: 14px; }
+.keuzes { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+.keuze { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+.keuze:hover { border-color: var(--court); }
+.keuze b { font-family: var(--f-display); font-size: 19px; letter-spacing: .02em; }
+.keuze span { color: var(--muted); font-size: 13.5px; }
+.voorstel { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; cursor: pointer; }
+.voorstel:has(input:checked) { border-color: var(--court); box-shadow: inset 0 0 0 1px var(--court); }
+.voorstel .wat { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.voorstel .wat small { color: var(--muted); }
+.raster-scroll { overflow-x: auto; }
+.raster { display: grid; grid-template-columns: 54px repeat(6, minmax(92px, 1fr)); gap: 4px; min-width: 640px; font-size: 12px; }
+.raster .rk { color: var(--muted); font-family: var(--f-mono); font-size: 11px; display: flex; align-items: center; }
+.raster .dk { font-family: var(--f-display); text-transform: uppercase; font-weight: 700; font-size: 14px; text-align: center; }
+.raster .rcel { display: flex; flex-direction: column; gap: 3px; }
+.slot { border: 1px solid var(--line); border-radius: 5px; padding: 3px 5px; text-align: left; background: var(--surface); min-height: 34px; line-height: 1.2; display: flex; flex-direction: column; color: var(--ink); }
+.slot small { color: var(--muted); font-size: 10.5px; }
+.slot.ok { background: var(--ok-bg); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
+.slot.let-op { background: var(--warn-bg); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
+.slot.blok { background: repeating-linear-gradient(135deg, var(--surface-2) 0 5px, var(--surface) 5px 10px); color: var(--muted); cursor: not-allowed; }
+.slot.huidig { outline: 2px dashed var(--ink); }
+.slot.gekozen { outline: 3px solid var(--court); }
+.slot.geen { visibility: hidden; }
+.legenda { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12.5px; color: var(--muted); }
+.legenda span { display: inline-flex; align-items: center; gap: 5px; }
+.legenda i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--line); display: inline-block; }
+.legenda .lg-ok { background: var(--ok-bg); border-color: var(--ok); } .legenda .lg-let { background: var(--warn-bg); border-color: var(--warn); }
+.legenda .lg-blok { background: repeating-linear-gradient(135deg, var(--surface-2) 0 3px, var(--surface) 3px 6px); }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-weight: 600; z-index: 50; max-width: calc(100vw - 32px); }
+.leeg-staat { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 28px; text-align: center; color: var(--muted); }
+.leeg-staat b { display: block; font-family: var(--f-display); font-size: 22px; color: var(--ink); margin-bottom: 4px; }
+@media (prefers-reduced-motion: no-preference) { .kaart, .knop, .slot { transition: border-color .15s, box-shadow .15s, opacity .15s; } }
+
+.kaart { cursor: default; }
+.mijn { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 10px; }
+.mijn h2 { margin: 0; font-family: var(--f-display); font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.mijn-lijst { display: flex; flex-direction: column; gap: 6px; }
+.mw { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; border-top: 1px solid var(--line); padding-top: 8px; }
+.mw .wanneer { font-weight: 700; min-width: 0; }
+.mw .tegen { color: var(--muted); flex: 1 1 260px; min-width: 0; }
+.bericht { white-space: pre-wrap; font-family: var(--f-mono); font-size: 13px; background: var(--surface-2); border-radius: 6px; padding: 12px; margin: 0; overflow-wrap: anywhere; }
+.form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 12px; max-width: 720px; }
+.form .rij { display: flex; flex-wrap: wrap; gap: 10px; }
+.form .rij .veld { flex: 1 1 200px; }
+.knoppen { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+a.knop { text-decoration: none; color: var(--court-ink); display: inline-flex; align-items: center; gap: 6px; }
+.contact { font-size: 14px; color: var(--muted); }
+.contact b { color: var(--ink); user-select: all; }
+.bijgewerkt { font-size: 13px; opacity: .8; margin-top: 4px; }
+@media (max-width: 440px) { .tab { padding: 12px 9px 10px; font-size: 16.5px; } }
+</style>
+
+<div class="kop">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span class="bal" aria-hidden="true"></span>TC Vollenhove</div>
+      <h1>Clubkampioenschappen 2026</h1>
+      <div class="sub">Programma voor deelnemers · 26 t/m 31 oktober</div>
+      <div class="bijgewerkt" id="bijgewerkt"></div>
+    </div>
+  </div>
+</div>
+<nav class="tabs" aria-label="Onderdelen">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" data-tab="planning">Planning</button>
+    <button class="tab" role="tab" data-tab="standen">Standen</button>
+    <button class="tab" role="tab" data-tab="verhindering">Verhindering</button>
+  </div>
+</nav>
+<main class="wrap" id="inhoud"></main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== Toernooiplanner: pure logica (planning, herplannen, standen) ===== */
+var TP = (function () {
+  var DAGEN = [
+    { kort: 'Ma', lang: 'Maandag', datum: '26 okt', iso: '2026-10-26' },
+    { kort: 'Di', lang: 'Dinsdag', datum: '27 okt', iso: '2026-10-27' },
+    { kort: 'Wo', lang: 'Woensdag', datum: '28 okt', iso: '2026-10-28' },
+    { kort: 'Do', lang: 'Donderdag', datum: '29 okt', iso: '2026-10-29' },
+    { kort: 'Vr', lang: 'Vrijdag', datum: '30 okt', iso: '2026-10-30' },
+    { kort: 'Za', lang: 'Zaterdag', datum: '31 okt', iso: '2026-10-31' }
+  ];
+  var TIJDEN_DOORDEWEEK = [['18:30', '20:00'], ['20:00', '21:30'], ['21:30', '23:00']];
+  var TIJDEN_ZATERDAG = [['13:00', '14:30'], ['14:30', '16:00'], ['16:00', '17:30']];
+  var ZATERDAG = 5;
+
+  function tijd(dag, ronde) { return (dag === ZATERDAG ? TIJDEN_ZATERDAG : TIJDEN_DOORDEWEEK)[ronde - 1]; }
+  function slotStart(dag, ronde) {
+    var t = tijd(dag, ronde)[0];
+    // Europe/Amsterdam: 26 okt 2026 en later is wintertijd (UTC+1)
+    return new Date(DAGEN[dag].iso + 'T' + t + ':00+01:00');
+  }
+  function slotKey(dag, ronde, baan) { return dag + '-' + ronde + '-' + baan; }
+  function slotLabel(s) {
+    if (!s || s.dag == null) return 'niet gepland';
+    var t = tijd(s.dag, s.ronde);
+    return DAGEN[s.dag].kort + ' ' + DAGEN[s.dag].datum + ', ronde ' + s.ronde + ' (' + t[0] + '–' + t[1] + '), baan ' + s.baan;
+  }
+
+  /* ---------- index van teams en spelers ---------- */
+  function indexeer(config) {
+    var teams = {}, finaleSpelers = {}, catByCode = {};
+    (config.categorieen || []).forEach(function (c) {
+      catByCode[c.code] = c;
+      (c.poules || []).forEach(function (p) {
+        (p.teams || []).forEach(function (t) {
+          teams[t.id] = { id: t.id, spelers: t.spelers, cat: c.code, poule: p.naam };
+          if (c.finale) t.spelers.forEach(function (s) { finaleSpelers[norm(s)] = true; });
+        });
+      });
+    });
+    return { teams: teams, finaleSpelers: finaleSpelers, cat: catByCode };
+  }
+  function norm(s) { return String(s || '').trim().toLowerCase(); }
+
+  // Spelers van een wedstrijd. Bij een finale met nog onbekende teams: lege lijst.
+  function spelersVan(m, idx, finaleTeams) {
+    var ids = [m.t1, m.t2];
+    if (m.finale && finaleTeams && finaleTeams[m.id]) ids = finaleTeams[m.id];
+    var out = [];
+    ids.forEach(function (id) { var t = id && idx.teams[id]; if (t) t.spelers.forEach(function (s) { out.push(norm(s)); }); });
+    return out;
+  }
+
+  /* ---------- toegestane banen ---------- */
+  // Geeft null als het slot mag, anders een reden (harde regel).
+  function slotRegel(m, s, idx) {
+    if (s.dag === ZATERDAG) {
+      if (s.baan === 3) return 'Baan 3 is op zaterdag voor de jeugd';
+      if (s.baan === 1 && !m.finale) return 'Baan 1 is op zaterdag voor de finales';
+      if (s.baan === 2) {
+        if (m.finale) return 'Finales worden op baan 1 gespeeld';
+        var cat = idx.cat[m.cat];
+        if (cat && cat.finale) return 'Op baan 2 mogen geen spelers uit GD8, HD8 of GD7';
+        var team = [m.t1, m.t2];
+        for (var i = 0; i < team.length; i++) {
+          var t = idx.teams[team[i]];
+          if (t) for (var j = 0; j < t.spelers.length; j++) if (idx.finaleSpelers[norm(t.spelers[j])]) return t.spelers[j] + ' speelt ook in een finalecategorie (baan 2 niet toegestaan)';
+        }
+      }
+    } else if (m.finale) return 'Finales staan op zaterdag';
+    return null;
+  }
+
+  function alleSlots() {
+    var out = [];
+    for (var d = 0; d < 6; d++) for (var r = 1; r <= 3; r++) for (var b = 1; b <= 3; b++) {
+      if (d === ZATERDAG && b === 3) continue;
+      out.push({ dag: d, ronde: r, baan: b });
+    }
+    return out;
+  }
+
+  function isVerhinderd(speler, dag, ronde, verh) {
+    var n = norm(speler);
+    for (var i = 0; i < verh.length; i++) {
+      var v = verh[i];
+      if (norm(v.speler) === n && v.dag === dag && (!v.rondes || v.rondes.length === 0 || v.rondes.indexOf(ronde) >= 0)) return v;
+    }
+    return null;
+  }
+
+  /* ---------- kosten van een (deel)planning ---------- */
+  // plan: {matchId: {dag,ronde,baan}}; matches: array
+  function spelerDagen(matches, plan, idx, finaleTeams) {
+    var map = {}; // speler -> dag -> [rondes]
+    matches.forEach(function (m) {
+      var s = plan[m.id]; if (!s || s.dag == null) return;
+      spelersVan(m, idx, finaleTeams).forEach(function (p) {
+        map[p] = map[p] || {};
+        (map[p][s.dag] = map[p][s.dag] || []).push(s.ronde);
+      });
+    });
+    return map;
+  }
+  var HARD = 1000;
+  function kosten(matches, plan, idx, verh, finaleTeams) {
+    var c = 0, bezet = {};
+    matches.forEach(function (m) {
+      var s = plan[m.id]; if (!s || s.dag == null) { c += 400; return; }
+      var k = slotKey(s.dag, s.ronde, s.baan);
+      if (bezet[k]) c += HARD; bezet[k] = 1;
+      if (slotRegel(m, s, idx)) c += HARD;
+      if (!m.finale && s.ronde === 3) c += 0.6;               // late ronde iets minder gewenst
+      if (!m.finale && s.dag === ZATERDAG) c += 0.3;
+      spelersVan(m, idx, finaleTeams).forEach(function (p) { if (isVerhinderd(p, s.dag, s.ronde, verh)) c += HARD; });
+    });
+    var sd = spelerDagen(matches, plan, idx, finaleTeams);
+    Object.keys(sd).forEach(function (p) {
+      var aantalDagen = 0;
+      Object.keys(sd[p]).forEach(function (d) {
+        var rs = sd[p][d].slice().sort(); aantalDagen++;
+        for (var i = 1; i < rs.length; i++) if (rs[i] === rs[i - 1]) c += HARD;   // twee partijen tegelijk
+        if (rs.length >= 2) {
+          c += 12 * (rs.length - 1);
+          if (rs.length === 2 && Math.abs(rs[1] - rs[0]) === 2) c += 3;          // lang wachten tussen partijen
+          if (rs.length >= 3) c += 60;
+        }
+      });
+    });
+    return c;
+  }
+
+  /* ---------- basisplanning (simulated annealing) ---------- */
+  function maakPlanning(matches, idx, verh, seed) {
+    var rnd = mulberry(seed || 7);
+    var slots = alleSlots();
+    var plan = {};
+    // finales vast op zaterdag baan 1 in de volgorde van m.volgorde
+    var finales = matches.filter(function (m) { return m.finale; });
+    finales.forEach(function (m, i) { plan[m.id] = { dag: ZATERDAG, ronde: (m.volgorde || i + 1), baan: 1 }; });
+    var groep = matches.filter(function (m) { return !m.finale; });
+    var vrij = slots.filter(function (s) { return !(s.dag === ZATERDAG && s.baan === 1); });
+    // shuffle en vul
+    vrij = shuffle(vrij, rnd);
+    groep.forEach(function (m, i) { plan[m.id] = vrij[i]; });
+    var cur = kosten(matches, plan, idx, verh), best = cur, bestPlan = clone(plan);
+    var T = 30;
+    for (var it = 0; it < 120000; it++) {
+      var a = groep[Math.floor(rnd() * groep.length)];
+      var prevA = plan[a.id], b = null, prevB = null;
+      var target = vrij[Math.floor(rnd() * vrij.length)];
+      for (var i = 0; i < groep.length; i++) { var s = plan[groep[i].id]; if (s && s.dag === target.dag && s.ronde === target.ronde && s.baan === target.baan) { b = groep[i]; break; } }
+      if (b === a) continue;
+      plan[a.id] = target; if (b) { prevB = plan[b.id]; plan[b.id] = prevA; }
+      var nc = kosten(matches, plan, idx, verh);
+      if (nc <= cur || rnd() < Math.exp((cur - nc) / T)) {
+        cur = nc; if (cur < best) { best = cur; bestPlan = clone(plan); }
+      } else { plan[a.id] = prevA; if (b) plan[b.id] = prevB; }
+      T = Math.max(0.05, T * 0.99993);
+    }
+    return { plan: bestPlan, kosten: best };
+  }
+
+  /* ---------- één wedstrijd herplannen ---------- */
+  // Geeft gesorteerde voorstellen: [{slot, swap:{id, naar}|null, kosten, uitleg}]
+  function voorstellen(matchId, matches, idx, verh, opties) {
+    opties = opties || {};
+    var nu = opties.nu || new Date();
+    var finaleTeams = opties.finaleTeams || {};
+    var plan = {}; matches.forEach(function (m) { if (m.dag != null) plan[m.id] = { dag: m.dag, ronde: m.ronde, baan: m.baan }; });
+    var m = matches.filter(function (x) { return x.id === matchId; })[0];
+    if (!m) return [];
+    var orig = plan[matchId] || (m.vorig && m.vorig.dag != null ? m.vorig : null);
+    delete plan[matchId];
+    var bezetDoor = {}; matches.forEach(function (x) { var s = plan[x.id]; if (s) bezetDoor[slotKey(s.dag, s.ronde, s.baan)] = x; });
+    function inToekomst(s) { return slotStart(s.dag, s.ronde) > nu; }
+    var basis = kosten(matches.filter(function (x) { return x.id !== matchId; }), plan, idx, verh, finaleTeams);
+    var uit = [];
+    alleSlots().forEach(function (s) {
+      if (!inToekomst(s)) return;
+      if (orig && s.dag === orig.dag && s.ronde === orig.ronde && s.baan === orig.baan && opties.nietOrigineel) return;
+      if (slotRegel(m, s, idx)) return;
+      var bez = bezetDoor[slotKey(s.dag, s.ronde, s.baan)];
+      if (!bez) {
+        plan[matchId] = s;
+        var k = kosten(matches, plan, idx, verh, finaleTeams) - basis;
+        delete plan[matchId];
+        if (k < HARD) uit.push({ slot: s, swap: null, kosten: k });
+      }
+    });
+    if (uit.length === 0 || opties.metRuil) {
+      // ruilen: wedstrijd in bezet slot, de andere naar een vrij slot of naar het oude slot
+      alleSlots().forEach(function (s) {
+        if (!inToekomst(s) || slotRegel(m, s, idx)) return;
+        var bez = bezetDoor[slotKey(s.dag, s.ronde, s.baan)];
+        if (!bez || bez.status !== 'open' && bez.status != null) return;
+        if (bez.finale !== m.finale) return;
+        var doelen = alleSlots().filter(function (t) { return inToekomst(t) && !bezetDoor[slotKey(t.dag, t.ronde, t.baan)] && !slotRegel(bez, t, idx) && !(t.dag === s.dag && t.ronde === s.ronde && t.baan === s.baan); });
+        if (orig && inToekomst(orig) && !slotRegel(bez, orig, idx)) doelen.push(orig);
+        var beste = null;
+        doelen.forEach(function (t) {
+          var oud = plan[bez.id];
+          plan[matchId] = s; plan[bez.id] = t;
+          var k = kosten(matches, plan, idx, verh, finaleTeams) - basis + 2; // kleine straf voor extra verplaatsing
+          plan[bez.id] = oud; delete plan[matchId];
+          if (k < HARD && (!beste || k < beste.kosten)) beste = { slot: s, swap: { id: bez.id, naar: t }, kosten: k };
+        });
+        if (beste) uit.push(beste);
+      });
+    }
+    uit.sort(function (a, b) { return (a.swap ? 1 : 0) - (b.swap ? 1 : 0) || a.kosten - b.kosten || slotStart(a.slot.dag, a.slot.ronde) - slotStart(b.slot.dag, b.slot.ronde) || a.slot.baan - b.slot.baan; });
+    return uit;
+  }
+
+  // Beoordeel elk slot voor handmatig verplaatsen: {key: {status:'ok'|'let-op'|'blok'|'bezet', redenen:[]}}
+  function slotBeoordeling(matchId, matches, idx, verh, opties) {
+    opties = opties || {};
+    var nu = opties.nu || new Date();
+    var finaleTeams = opties.finaleTeams || {};
+    var m = matches.filter(function (x) { return x.id === matchId; })[0];
+    var bezetDoor = {}; matches.forEach(function (x) { if (x.dag != null && x.id !== matchId) bezetDoor[slotKey(x.dag, x.ronde, x.baan)] = x; });
+    var sp = spelersVan(m, idx, finaleTeams);
+    var namen = {}; [m.t1, m.t2].concat(finaleTeams[m.id] || []).forEach(function (id) { var t = idx.teams[id]; if (t) t.spelers.forEach(function (s) { namen[norm(s)] = s; }); });
+    var res = {};
+    alleSlots().forEach(function (s) {
+      var k = slotKey(s.dag, s.ronde, s.baan), red = [], status = 'ok';
+      if (slotStart(s.dag, s.ronde) <= nu) { red.push('Dit tijdstip is al voorbij'); status = 'blok'; }
+      var regel = slotRegel(m, s, idx); if (regel) { red.push(regel); status = 'blok'; }
+      sp.forEach(function (p) {
+        var v = isVerhinderd(p, s.dag, s.ronde, verh); if (v) { red.push((namen[p] || p) + ' is verhinderd'); status = 'blok'; }
+        matches.forEach(function (x) {
+          if (x.id === matchId || x.dag !== s.dag) return;
+          if (spelersVan(x, idx, finaleTeams).indexOf(p) < 0) return;
+          if (x.ronde === s.ronde) { red.push((namen[p] || p) + ' speelt dan al (' + x.cat + ')'); status = 'blok'; }
+          else if (status === 'ok' && s.dag !== ZATERDAG) { red.push((namen[p] || p) + ' speelt die avond ook ronde ' + x.ronde); status = 'let-op'; }
+          else if (s.dag !== ZATERDAG) red.push((namen[p] || p) + ' speelt die avond ook ronde ' + x.ronde);
+        });
+      });
+      var bez = bezetDoor[k];
+      res[k] = { status: status, redenen: dedupe(red), bezet: bez ? bez.id : null };
+    });
+    return res;
+  }
+
+  // Conflicten in de huidige planning: per wedstrijd een lijst redenen
+  function conflicten(matches, idx, verh, finaleTeams) {
+    var out = {};
+    function add(id, r) { (out[id] = out[id] || []).push(r); }
+    var perSlot = {};
+    matches.forEach(function (m) {
+      if (m.dag == null) return;
+      var k = slotKey(m.dag, m.ronde, m.baan);
+      if (perSlot[k]) { add(m.id, 'Dubbel op dezelfde baan'); add(perSlot[k], 'Dubbel op dezelfde baan'); }
+      perSlot[k] = m.id;
+      var regel = slotRegel(m, m, idx); if (regel) add(m.id, regel);
+      if (m.status && m.status !== 'open') return;
+      var t = {}; [m.t1, m.t2].concat((finaleTeams || {})[m.id] || []).forEach(function (id) { var tt = idx.teams[id]; if (tt) tt.spelers.forEach(function (s) { t[norm(s)] = s; }); });
+      spelersVan(m, idx, finaleTeams).forEach(function (p) {
+        var v = isVerhinderd(p, m.dag, m.ronde, verh); if (v) add(m.id, (t[p] || p) + ' is verhinderd');
+      });
+    });
+    // dezelfde speler tegelijk op twee banen
+    var opTijd = {};
+    matches.forEach(function (m) {
+      if (m.dag == null) return;
+      spelersVan(m, idx, finaleTeams).forEach(function (p) {
+        var k = m.dag + '-' + m.ronde + '-' + p;
+        if (opTijd[k] && opTijd[k] !== m.id) { add(m.id, 'Speler staat tegelijk op twee banen'); add(opTijd[k], 'Speler staat tegelijk op twee banen'); }
+        opTijd[k] = m.id;
+      });
+    });
+    Object.keys(out).forEach(function (k) { out[k] = dedupe(out[k]); });
+    return out;
+  }
+
+  /* ---------- uitslag ---------- */
+  // m.sets: [[a,b],...], m.status: 'open'|'gespeeld'|'wo'|'opgave', m.uitTeam: 't1'|'t2'
+  function uitslag(m, cfg) {
+    var r = { klaar: false, winnaar: null, sets: [0, 0], games: [0, 0], telt: true };
+    var mtb = cfg && cfg.derdeSetMTB;
+    (m.sets || []).forEach(function (s, i) {
+      var a = +s[0], b = +s[1];
+      if (isNaN(a) || isNaN(b) || (a === 0 && b === 0)) return;
+      var isMtb = mtb && i === 2;
+      if (a > b) r.sets[0]++; else if (b > a) r.sets[1]++;
+      if (isMtb) { if (a > b) r.games[0]++; else if (b > a) r.games[1]++; }  // matchtiebreak telt als 1 game
+      else { r.games[0] += a; r.games[1] += b; }
+    });
+    if (m.status === 'wo' || m.status === 'opgave') {
+      r.klaar = true; r.winnaar = m.uitTeam === 't1' ? 't2' : 't1'; r.telt = false; return r;
+    }
+    if (m.status === 'gespeeld') {
+      r.klaar = true;
+      r.winnaar = r.sets[0] > r.sets[1] ? 't1' : r.sets[1] > r.sets[0] ? 't2' : null;
+    }
+    return r;
+  }
+  function scoreTekst(m) {
+    if (m.status === 'wo') return 'w.o.';
+    var s = (m.sets || []).filter(function (x) { return x && !(+x[0] === 0 && +x[1] === 0) && x[0] !== '' && x[0] != null; }).map(function (x) { return x[0] + '-' + x[1]; }).join('  ');
+    if (m.status === 'opgave') return (s ? s + '  ' : '') + 'opg.';
+    return s;
+  }
+  // Controle van ingevoerde sets; retourneert foutmelding of null
+  function controleerSets(sets, cfg) {
+    var gewonnen = [0, 0];
+    for (var i = 0; i < sets.length; i++) {
+      var a = sets[i][0], b = sets[i][1];
+      if ((a === '' || a == null) && (b === '' || b == null)) continue;
+      a = +a; b = +b;
+      if (isNaN(a) || isNaN(b) || a < 0 || b < 0) return 'Set ' + (i + 1) + ': vul twee getallen in.';
+      if (a === b) return 'Set ' + (i + 1) + ': een set kan niet gelijk eindigen.';
+      var mtb = cfg && cfg.derdeSetMTB && i === 2;
+      var hi = Math.max(a, b), lo = Math.min(a, b);
+      if (mtb) { if (!(hi >= 10 && hi - lo >= 2 && (hi === 10 || hi - lo === 2))) return 'Set 3 (matchtiebreak): tot 10 punten met 2 punten verschil, bijv. 10-7 of 12-10.'; }
+      else if (!((hi === 6 && lo <= 4) || (hi === 7 && (lo === 5 || lo === 6)))) return 'Set ' + (i + 1) + ': ' + a + '-' + b + ' is geen geldige setstand.';
+      gewonnen[a > b ? 0 : 1]++;
+    }
+    if (Math.max(gewonnen[0], gewonnen[1]) !== 2) return 'Er moet een winnaar zijn met 2 gewonnen sets.';
+    if (gewonnen[0] + gewonnen[1] === 3 && false) return null;
+    return null;
+  }
+
+  /* ---------- stand volgens KNLTB toernooireglement art. 38 ---------- */
+  function stand(teamIds, matches, cfg) {
+    var uitgevallen = {};
+    matches.forEach(function (m) {
+      if (m.status === 'wo' || m.status === 'opgave') uitgevallen[m[m.uitTeam]] = true;
+    });
+    var rij = {};
+    teamIds.forEach(function (id) { rij[id] = { id: id, gespeeld: 0, gewonnen: 0, verloren: 0, sw: 0, sv: 0, gw: 0, gv: 0, uitgevallen: !!uitgevallen[id], beslist: '' }; });
+    var geldig = matches.filter(function (m) { return !uitgevallen[m.t1] && !uitgevallen[m.t2]; });
+    geldig.forEach(function (m) {
+      var u = uitslag(m, cfg); if (!u.klaar) return;
+      var a = rij[m.t1], b = rij[m.t2]; if (!a || !b) return;
+      a.gespeeld++; b.gespeeld++;
+      if (u.winnaar === 't1') { a.gewonnen++; b.verloren++; } else if (u.winnaar === 't2') { b.gewonnen++; a.verloren++; }
+    });
+    geldig.forEach(function (m) {
+      var u = uitslag(m, cfg); if (!u.klaar) return;
+      var a = rij[m.t1], b = rij[m.t2]; if (!a || !b) return;
+      a.sw += u.sets[0]; a.sv += u.sets[1]; b.sw += u.sets[1]; b.sv += u.sets[0];
+      a.gw += u.games[0]; a.gv += u.games[1]; b.gw += u.games[1]; b.gv += u.games[0];
+    });
+    function pct(w, v) { return w + v === 0 ? 0 : w / (w + v); }
+    function onderling(x, y) {
+      for (var i = 0; i < geldig.length; i++) {
+        var m = geldig[i], u = uitslag(m, cfg); if (!u.klaar) continue;
+        if (m.t1 === x && m.t2 === y) return u.winnaar === 't1' ? -1 : u.winnaar === 't2' ? 1 : 0;
+        if (m.t1 === y && m.t2 === x) return u.winnaar === 't2' ? -1 : u.winnaar === 't1' ? 1 : 0;
+      }
+      return 0;
+    }
+    var criteria = [
+      { naam: 'setpercentage', f: function (r) { return pct(r.sw, r.sv); } },
+      { naam: 'gamepercentage', f: function (r) { return pct(r.gw, r.gv); } }
+    ];
+    function sorteer(groep, niveau) {
+      if (groep.length <= 1) return groep;
+      if (groep.length === 2) {
+        var o = onderling(groep[0].id, groep[1].id);
+        if (o !== 0) { var g2 = o < 0 ? groep : [groep[1], groep[0]]; g2.forEach(function (r) { r.beslist = r.beslist || 'onderling resultaat'; }); return g2; }
+      }
+      if (niveau >= criteria.length) { groep.forEach(function (r) { r.beslist = 'gelijk – loting'; }); return groep.sort(function (a, b) { return a.id < b.id ? -1 : 1; }); }
+      var c = criteria[niveau];
+      var buckets = {};
+      groep.forEach(function (r) { var k = c.f(r).toFixed(6); (buckets[k] = buckets[k] || []).push(r); });
+      var keys = Object.keys(buckets).sort(function (a, b) { return b - a; });
+      var out = [];
+      keys.forEach(function (k) {
+        var bkt = buckets[k];
+        if (bkt.length === 1 && keys.length > 1) bkt[0].beslist = bkt[0].beslist || c.naam;
+        out = out.concat(bkt.length === 1 ? bkt : sorteer(bkt, niveau + 1));
+      });
+      return out;
+    }
+    var actief = teamIds.filter(function (id) { return !uitgevallen[id]; }).map(function (id) { return rij[id]; });
+    var perWins = {};
+    actief.forEach(function (r) { (perWins[r.gewonnen] = perWins[r.gewonnen] || []).push(r); });
+    var res = [];
+    Object.keys(perWins).sort(function (a, b) { return b - a; }).forEach(function (w) {
+      var g = perWins[w];
+      if (g.length > 1) g.forEach(function (r) { r.beslist = ''; });
+      res = res.concat(sorteer(g, 0));
+    });
+    teamIds.filter(function (id) { return uitgevallen[id]; }).forEach(function (id) { rij[id].beslist = 'w.o./opgave – laatste'; res.push(rij[id]); });
+    res.forEach(function (r) { r.setPct = pct(r.sw, r.sv); r.gamePct = pct(r.gw, r.gv); });
+    // als niemand gelijk stond, geen toelichting nodig
+    return res;
+  }
+
+  /* ---------- helpers ---------- */
+  function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function shuffle(arr, rnd) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function dedupe(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); }
+
+  return {
+    DAGEN: DAGEN, ZATERDAG: ZATERDAG, tijd: tijd, slotStart: slotStart, slotKey: slotKey, slotLabel: slotLabel,
+    indexeer: indexeer, norm: norm, spelersVan: spelersVan, slotRegel: slotRegel, alleSlots: alleSlots,
+    isVerhinderd: isVerhinderd, kosten: kosten, maakPlanning: maakPlanning, voorstellen: voorstellen,
+    slotBeoordeling: slotBeoordeling, conflicten: conflicten, uitslag: uitslag, scoreTekst: scoreTekst,
+    controleerSets: controleerSets, stand: stand
+  };
+})();
+if (typeof module !== 'undefined') module.exports = TP;
+
+</script>
+<script>
+var DATA = {"config": {"categorieen": [{"code": "HD7", "finale": false, "naam": "Herendubbel 7", "poules": [{"naam": "Groep 1", "teams": [{"id": "HD7-G1", "spelers": ["Wouter Verkerk", "Louwe Bakker"]}, {"id": "HD7-G2", "spelers": ["Wilbert de Olde", "Maurice van Doorn"]}, {"id": "HD7-G3", "spelers": ["Steven Winters", "Pim Jansen"]}, {"id": "HD7-G4", "spelers": ["Dennis Kuiper", "Kjell Kuiper"]}]}]}, {"code": "HD8", "finale": true, "naam": "Herendubbel 8", "poules": [{"naam": "Poule A", "teams": [{"id": "HD8-A1", "spelers": ["Jenno Jongman", "Gert Tukker"]}, {"id": "HD8-A2", "spelers": ["Nick Harsevoort", "Frans Vulkers"]}, {"id": "HD8-A3", "spelers": ["Martin van der Linde", "Rien ten Napel"]}, {"id": "HD8-A4", "spelers": ["Jos Galama", "Jan Willem Brand"]}]}, {"naam": "Poule B", "teams": [{"id": "HD8-B1", "spelers": ["Max Louw", "Klaas Jan Louw"]}, {"id": "HD8-B2", "spelers": ["Job Kwast", "Niels Rook"]}, {"id": "HD8-B3", "spelers": ["Johan van Bruggen", "Gerhard Mondria"]}, {"id": "HD8-B4", "spelers": ["Alex Hammenga", "Dirk Hanson"]}]}]}, {"code": "DD7", "finale": false, "naam": "Damesdubbel 7", "poules": [{"naam": "Groep 1", "teams": [{"id": "DD7-G1", "spelers": ["Annique Rabbinge", "Margit Heetebrij"]}, {"id": "DD7-G2", "spelers": ["Ellen Verkerk", "Lyanne Kok"]}, {"id": "DD7-G3", "spelers": ["Henny Kuiper", "Femmy van Bruggen"]}]}]}, {"code": "DD8", "finale": false, "naam": "Damesdubbel 8", "poules": [{"naam": "Groep 1", "teams": [{"id": "DD8-G1", "spelers": ["Gertie Smeets", "Linda de Graaf"]}, {"id": "DD8-G2", "spelers": ["Jentina Jongman", "Amanda Douma"]}, {"id": "DD8-G3", "spelers": ["Liesbeth Vulkers", "Annemarie Kwast"]}]}]}, {"code": "GD7", "finale": true, "naam": "Gemengd dubbel 7", "poules": [{"naam": "Poule A", "teams": [{"id": "GD7-A1", "spelers": ["Rineke Verstijnen", "Alex Hammenga"]}, {"id": "GD7-A2", "spelers": ["Ellen Verkerk", "Wouter Verkerk"]}, {"id": "GD7-A3", "spelers": ["Margit Heetebrij", "Jan Willem Brand"]}]}, {"naam": "Poule B", "teams": [{"id": "GD7-B1", "spelers": ["Femmy van Bruggen", "Jan Bakker"]}, {"id": "GD7-B2", "spelers": ["Henny Kuiper", "Johan van Bruggen"]}, {"id": "GD7-B3", "spelers": ["Marije Hop", "Jos Galama"]}]}]}, {"code": "GD8", "finale": true, "naam": "Gemengd dubbel 8", "poules": [{"naam": "Poule A", "teams": [{"id": "GD8-A1", "spelers": ["Jentina Jongman", "Jenno Jongman"]}, {"id": "GD8-A2", "spelers": ["Amanda Douma", "Gert Tukker"]}, {"id": "GD8-A3", "spelers": ["Liesbeth Vulkers", "Klaas Jan Louw"]}]}, {"naam": "Poule B", "teams": [{"id": "GD8-B1", "spelers": ["Willy van der Haar", "Joop van Benthem"]}, {"id": "GD8-B2", "spelers": ["Gerda Weijs", "Frans Vulkers"]}, {"id": "GD8-B3", "spelers": ["Annemarie Kwast", "Job Kwast"]}, {"id": "GD8-B4", "spelers": ["Liza Hanson", "Dirk Hanson"]}]}]}], "instellingen": {"derdeSetMTB": true}}, "matches": [{"baan": 3, "cat": "DD7", "dag": 3, "finale": false, "poule": "Groep 1", "ronde": 1, "sets": [], "status": "open", "t1": "DD7-G1", "t2": "DD7-G2", "id": "DD7-G-01"}, {"baan": 1, "cat": "DD7", "dag": 1, "finale": false, "poule": "Groep 1", "ronde": 3, "sets": [], "status": "open", "t1": "DD7-G1", "t2": "DD7-G3", "id": "DD7-G-02"}, {"baan": 1, "cat": "DD7", "dag": 2, "finale": false, "poule": "Groep 1", "ronde": 1, "sets": [], "status": "open", "t1": "DD7-G2", "t2": "DD7-G3", "id": "DD7-G-03"}, {"baan": 1, "cat": "DD8", "dag": 1, "finale": false, "poule": "Groep 1", "ronde": 1, "sets": [], "status": "open", "t1": "DD8-G1", "t2": "DD8-G2", "id": "DD8-G-01"}, {"baan": 1, "cat": "DD8", "dag": 0, "finale": false, "poule": "Groep 1", "ronde": 3, "sets": [], "status": "open", "t1": "DD8-G1", "t2": "DD8-G3", "id": "DD8-G-02"}, {"baan": 2, "cat": "DD8", "dag": 4, "finale": false, "poule": "Groep 1", "ronde": 1, "sets": [], "status": "open", "t1": "DD8-G2", "t2": "DD8-G3", "id": "DD8-G-03"}, {"baan": 3, "cat": "GD7", "dag": 1, "finale": false, "poule": "Poule A", "ronde": 1, "sets": [], "status": "open", "t1": "GD7-A1", "t2": "GD7-A2", "id": "GD7-A-01"}, {"baan": 1, "cat": "GD7", "dag": 0, "finale": false, "poule": "Poule A", "ronde": 1, "sets": [], "status": "open", "t1": "GD7-A1", "t2": "GD7-A3", "id": "GD7-A-02"}, {"baan": 3, "cat": "GD7", "dag": 4, "finale": false, "poule": "Poule A", "ronde": 1, "sets": [], "status": "open", "t1": "GD7-A2", "t2": "GD7-A3", "id": "GD7-A-03"}, {"baan": 1, "cat": "GD7", "dag": 3, "finale": false, "poule": "Poule B", "ronde": 1, "sets": [], "status": "open", "t1": "GD7-B1", "t2": "GD7-B2", "id": "GD7-B-01"}, {"baan": 2, "cat": "GD7", "dag": 4, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "GD7-B1", "t2": "GD7-B3", "id": "GD7-B-02"}, {"baan": 2, "cat": "GD7", "dag": 0, "finale": false, "poule": "Poule B", "ronde": 1, "sets": [], "status": "open", "t1": "GD7-B2", "t2": "GD7-B3", "id": "GD7-B-03"}, {"baan": 1, "bron1": "Poule A", "bron2": "Poule B", "cat": "GD7", "dag": 5, "finale": true, "poule": "Finale", "ronde": 2, "sets": [], "status": "open", "t1": null, "t2": null, "volgorde": 2, "id": "GD7-F"}, {"baan": 1, "cat": "GD8", "dag": 0, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-A1", "t2": "GD8-A2", "id": "GD8-A-01"}, {"baan": 3, "cat": "GD8", "dag": 2, "finale": false, "poule": "Poule A", "ronde": 1, "sets": [], "status": "open", "t1": "GD8-A1", "t2": "GD8-A3", "id": "GD8-A-02"}, {"baan": 3, "cat": "GD8", "dag": 3, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-A2", "t2": "GD8-A3", "id": "GD8-A-03"}, {"baan": 3, "cat": "GD8", "dag": 1, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-B1", "t2": "GD8-B2", "id": "GD8-B-01"}, {"baan": 2, "cat": "GD8", "dag": 3, "finale": false, "poule": "Poule B", "ronde": 1, "sets": [], "status": "open", "t1": "GD8-B1", "t2": "GD8-B3", "id": "GD8-B-02"}, {"baan": 2, "cat": "GD8", "dag": 0, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-B1", "t2": "GD8-B4", "id": "GD8-B-03"}, {"baan": 3, "cat": "GD8", "dag": 2, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-B2", "t2": "GD8-B3", "id": "GD8-B-04"}, {"baan": 3, "cat": "GD8", "dag": 4, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "GD8-B2", "t2": "GD8-B4", "id": "GD8-B-05"}, {"baan": 2, "cat": "GD8", "dag": 1, "finale": false, "poule": "Poule B", "ronde": 1, "sets": [], "status": "open", "t1": "GD8-B3", "t2": "GD8-B4", "id": "GD8-B-06"}, {"baan": 1, "bron1": "Poule A", "bron2": "Poule B", "cat": "GD8", "dag": 5, "finale": true, "poule": "Finale", "ronde": 3, "sets": [], "status": "open", "t1": null, "t2": null, "volgorde": 3, "id": "GD8-F"}, {"baan": 2, "cat": "HD7", "dag": 2, "finale": false, "poule": "Groep 1", "ronde": 2, "sets": [], "status": "open", "t1": "HD7-G1", "t2": "HD7-G2", "id": "HD7-G-01"}, {"baan": 2, "cat": "HD7", "dag": 0, "finale": false, "poule": "Groep 1", "ronde": 3, "sets": [], "status": "open", "t1": "HD7-G1", "t2": "HD7-G3", "id": "HD7-G-02"}, {"baan": 1, "cat": "HD7", "dag": 3, "finale": false, "poule": "Groep 1", "ronde": 3, "sets": [], "status": "open", "t1": "HD7-G1", "t2": "HD7-G4", "id": "HD7-G-03"}, {"baan": 1, "cat": "HD7", "dag": 4, "finale": false, "poule": "Groep 1", "ronde": 1, "sets": [], "status": "open", "t1": "HD7-G2", "t2": "HD7-G3", "id": "HD7-G-04"}, {"baan": 2, "cat": "HD7", "dag": 5, "finale": false, "poule": "Groep 1", "ronde": 2, "sets": [], "status": "open", "t1": "HD7-G2", "t2": "HD7-G4", "id": "HD7-G-05"}, {"baan": 2, "cat": "HD7", "dag": 1, "finale": false, "poule": "Groep 1", "ronde": 2, "sets": [], "status": "open", "t1": "HD7-G3", "t2": "HD7-G4", "id": "HD7-G-06"}, {"baan": 2, "cat": "HD8", "dag": 1, "finale": false, "poule": "Poule A", "ronde": 3, "sets": [], "status": "open", "t1": "HD8-A1", "t2": "HD8-A2", "id": "HD8-A-01"}, {"baan": 1, "cat": "HD8", "dag": 4, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-A1", "t2": "HD8-A3", "id": "HD8-A-02"}, {"baan": 1, "cat": "HD8", "dag": 2, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-A1", "t2": "HD8-A4", "id": "HD8-A-03"}, {"baan": 3, "cat": "HD8", "dag": 0, "finale": false, "poule": "Poule A", "ronde": 1, "sets": [], "status": "open", "t1": "HD8-A2", "t2": "HD8-A3", "id": "HD8-A-04"}, {"baan": 2, "cat": "HD8", "dag": 3, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-A2", "t2": "HD8-A4", "id": "HD8-A-05"}, {"baan": 1, "cat": "HD8", "dag": 1, "finale": false, "poule": "Poule A", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-A3", "t2": "HD8-A4", "id": "HD8-A-06"}, {"baan": 3, "cat": "HD8", "dag": 0, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-B1", "t2": "HD8-B2", "id": "HD8-B-01"}, {"baan": 3, "cat": "HD8", "dag": 1, "finale": false, "poule": "Poule B", "ronde": 3, "sets": [], "status": "open", "t1": "HD8-B1", "t2": "HD8-B3", "id": "HD8-B-02"}, {"baan": 2, "cat": "HD8", "dag": 4, "finale": false, "poule": "Poule B", "ronde": 3, "sets": [], "status": "open", "t1": "HD8-B1", "t2": "HD8-B4", "id": "HD8-B-03"}, {"baan": 1, "cat": "HD8", "dag": 4, "finale": false, "poule": "Poule B", "ronde": 3, "sets": [], "status": "open", "t1": "HD8-B2", "t2": "HD8-B3", "id": "HD8-B-04"}, {"baan": 1, "cat": "HD8", "dag": 3, "finale": false, "poule": "Poule B", "ronde": 2, "sets": [], "status": "open", "t1": "HD8-B2", "t2": "HD8-B4", "id": "HD8-B-05"}, {"baan": 2, "cat": "HD8", "dag": 2, "finale": false, "poule": "Poule B", "ronde": 1, "sets": [], "status": "open", "t1": "HD8-B3", "t2": "HD8-B4", "id": "HD8-B-06"}, {"baan": 1, "bron1": "Poule A", "bron2": "Poule B", "cat": "HD8", "dag": 5, "finale": true, "poule": "Finale", "ronde": 1, "sets": [], "status": "open", "t1": null, "t2": null, "volgorde": 1, "id": "HD8-F"}], "contact": {"naam": "Nancy van Doorn", "whatsapp": "31610137307", "whatsappTekst": "06-10137307", "email": "mo.nancy@ziggo.nl"}, "bijgewerkt": "2026-10-21T14:41:18.273905+00:00"};
+(function () {
+  var S = { tab: 'planning', naam: '', vh: { wedstrijd: '', dag: '0', rondes: [1, 2, 3], toelichting: '' } };
+  try { S.naam = localStorage.getItem('tp-d-naam') || ''; } catch (e) {}
+  if (/^#(planning|standen|verhindering)$/.test(location.hash)) S.tab = location.hash.slice(1);
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var cfgDoc = DATA.config, M = DATA.matches, IDX = TP.indexeer(cfgDoc), CFG = cfgDoc.instellingen || { derdeSetMTB: true };
+  function team(id) { return IDX.teams[id]; }
+  function teamNaam(id) { var t = team(id); return t ? t.spelers.join(' / ') : ''; }
+  function pouleW(cat, pn) { return M.filter(function (m) { return m.cat === cat && m.poule === pn && !m.finale; }); }
+  function klaar(cat, pn) { var w = pouleW(cat, pn); return w.length && w.every(function (m) { return TP.uitslag(m, CFG).klaar; }); }
+  function stand(cat, p) { return TP.stand(p.teams.map(function (t) { return t.id; }), pouleW(cat, p.naam), CFG); }
+  var FT = {};
+  M.forEach(function (m) {
+    if (!m.finale) return; var c = IDX.cat[m.cat];
+    FT[m.id] = [m.bron1, m.bron2].map(function (pn) { var p = c.poules.filter(function (x) { return x.naam === pn; })[0]; return p && klaar(m.cat, pn) ? stand(m.cat, p)[0].id : null; });
+  });
+  function deeln(m) { return m.finale ? (FT[m.id] || [null, null]) : [m.t1, m.t2]; }
+  function spelersVan(m) { var o = []; deeln(m).forEach(function (id) { var t = team(id); if (t) o = o.concat(t.spelers); }); return o; }
+  function naamTeam(m, k) { var d = deeln(m); return d[k] ? teamNaam(d[k]) : 'Winnaar ' + (k ? m.bron2 : m.bron1); }
+  function alleSpelers() { var s = {}; Object.keys(IDX.teams).forEach(function (k) { IDX.teams[k].spelers.forEach(function (n) { s[n.trim()] = 1; }); }); return Object.keys(s).sort(function (a, b) { return a.localeCompare(b, 'nl'); }); }
+  function bekend(n) { return alleSpelers().filter(function (x) { return TP.norm(x) === TP.norm(n); })[0] || ''; }
+  function slotKort(m) { if (m.dag == null) return 'Nog niet gepland'; var t = TP.tijd(m.dag, m.ronde); return TP.DAGEN[m.dag].lang + ' ' + TP.DAGEN[m.dag].datum + ', ' + t[0] + '–' + t[1] + ', baan ' + m.baan; }
+  function mijnWedstrijden(n) { var k = TP.norm(n); return M.filter(function (m) { return spelersVan(m).some(function (s) { return TP.norm(s) === k; }); }).sort(function (a, b) { return (a.dag == null ? 99 : a.dag * 10 + a.ronde) - (b.dag == null ? 99 : b.dag * 10 + b.ronde); }); }
+  function mijnTeam(m, n) { var d = deeln(m), k = TP.norm(n); for (var i = 0; i < 2; i++) { var t = team(d[i]); if (t && t.spelers.some(function (s) { return TP.norm(s) === k; })) return i; } return -1; }
+
+  $('#bijgewerkt').textContent = 'Stand van zaken: ' + new Date(DATA.bijgewerkt).toLocaleString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Amsterdam' });
+
+  function render() {
+    document.querySelectorAll('.tab').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === S.tab)); });
+    var main = $('#inhoud');
+    main.innerHTML = S.tab === 'planning' ? htmlPlanning() : S.tab === 'standen' ? htmlStanden() : htmlVerhindering();
+    bind();
+  }
+  function lijstOpties() { return alleSpelers().map(function (n) { return '<option value="' + esc(n) + '">'; }).join(''); }
+
+  function htmlMijn() {
+    var h = '<section class="mijn"><h2>Mijn wedstrijden</h2><label class="veld">Je naam<input id="m-naam" list="sp" placeholder="Typ je naam, bijv. Ellen Verkerk" value="' + esc(S.naam) + '" autocomplete="name"></label><datalist id="sp">' + lijstOpties() + '</datalist>';
+    var n = bekend(S.naam);
+    if (S.naam && !n) h += '<div class="contact">Deze naam staat niet in de deelnemerslijst. Kies je naam uit de lijst.</div>';
+    if (n) {
+      var ws = mijnWedstrijden(n);
+      h += '<div class="mijn-lijst">' + ws.map(function (m) {
+        var k = mijnTeam(m, n), u = TP.uitslag(m, CFG);
+        var tegen = k < 0 ? naamTeam(m, 0) + ' – ' + naamTeam(m, 1) : 'tegen ' + naamTeam(m, 1 - k);
+        if (m.finale && k < 0) tegen = 'Finale als je je poule wint';
+        return '<div class="mw"><span class="tag" data-c="' + m.cat + '">' + m.cat + '</span><span class="wanneer">' + esc(slotKort(m)) + '</span><span class="tegen">' + esc((m.finale ? 'Finale · ' : '') + tegen) + (u.klaar ? ' · ' + esc(TP.scoreTekst(m)) : '') + '</span>' +
+          (!u.klaar && m.dag != null ? '<button class="knop klein" data-kanniet="' + m.id + '">Ik kan niet</button>' : '') + '</div>';
+      }).join('') + '</div>';
+      // finales in categorieën waarin de speler meedoet
+      M.filter(function (m) { return m.finale && mijnTeam(m, n) < 0; }).forEach(function (m) {
+        var c = IDX.cat[m.cat], doetMee = c.poules.some(function (p) { return p.teams.some(function (t) { return t.spelers.some(function (s) { return TP.norm(s) === TP.norm(n); }); }); });
+        if (doetMee) h += '<div class="mw"><span class="tag" data-c="' + m.cat + '">' + m.cat + '</span><span class="wanneer">' + esc(slotKort(m)) + '</span><span class="tegen">Finale, als je team de poule wint</span></div>';
+      });
+    }
+    return h + '</section>';
+  }
+
+  function htmlPlanning() {
+    var n = bekend(S.naam), h = htmlMijn();
+    h += '<nav class="dagnav" aria-label="Naar dag" style="margin-bottom:14px">' + TP.DAGEN.map(function (d, i) { return '<a href="#dag-' + i + '">' + d.kort + ' ' + d.datum.split(' ')[0] + '</a>'; }).join('') + '</nav>';
+    TP.DAGEN.forEach(function (d, di) {
+      h += '<section class="dag" id="dag-' + di + '"><header><h2>' + d.lang + '</h2><span class="datum">' + d.datum + '</span></header>';
+      for (var r = 1; r <= 3; r++) {
+        var t = TP.tijd(di, r);
+        h += '<div class="ronde"><div class="tijdvak"><b>Ronde ' + r + '</b><span>' + t[0] + '–' + t[1] + '</span></div>';
+        for (var b = 1; b <= 3; b++) {
+          if (di === TP.ZATERDAG && b === 3) { h += '<div class="cel-leeg cel-jeugd"><b>Baan 3</b>Jeugdactiviteiten</div>'; continue; }
+          var m = M.filter(function (x) { return x.dag === di && x.ronde === r && x.baan === b; })[0];
+          h += m ? kaart(m, b, n) : '<div class="cel-leeg"><b>Baan ' + b + '</b>' + (di === TP.ZATERDAG && b === 1 ? 'Finale' : 'Vrij') + '</div>';
+        }
+        h += '</div>';
+      }
+      h += '</section>';
+    });
+    return h;
+  }
+  function kaart(m, baan, n) {
+    var d = deeln(m), u = TP.uitslag(m, CFG);
+    var licht = n && spelersVan(m).some(function (s) { return TP.norm(s) === TP.norm(n); }) ? ' licht' : '';
+    function rij(id, kant, bron) {
+      var sc = (m.sets || []).filter(function (s) { return s && s[0] !== '' && s[0] != null; }).map(function (s) { var a = +s[kant === 't1' ? 0 : 1], b = +s[kant === 't1' ? 1 : 0]; return '<i class="' + (a > b ? 'w' : '') + '">' + a + '</i>'; }).join('');
+      if ((m.status === 'wo' || m.status === 'opgave') && m.uitTeam === kant) sc += '<i>' + (m.status === 'wo' ? 'w.o.' : 'opg') + '</i>';
+      return '<span class="tn' + (id ? '' : ' leeg') + (u.winnaar === kant ? ' w' : '') + '">' + (id ? esc(teamNaam(id)) : 'Winnaar ' + esc(bron)) + '</span><span class="sc">' + sc + '</span>';
+    }
+    return '<div class="kaart' + licht + '"><span class="top"><span class="tag" data-c="' + m.cat + '">' + m.cat + '</span>' + esc(m.finale ? 'Finale' : m.poule) + '<span class="baan">Baan ' + baan + '</span></span>' +
+      '<span class="teams">' + rij(d[0], 't1', m.bron1) + rij(d[1], 't2', m.bron2) + '</span>' +
+      '<span class="voet">' + (u.klaar ? '<span class="pil ok">' + (m.status === 'wo' ? 'Walkover' : m.status === 'opgave' ? 'Opgave' : 'Gespeeld') + '</span>' : '<span class="pil neutraal">Nog te spelen</span>') + '</span></div>';
+  }
+
+  function htmlStanden() {
+    var h = '<div class="cats">';
+    cfgDoc.categorieen.forEach(function (c) {
+      h += '<section class="cat"><h2><span class="tag" data-c="' + c.code + '">' + c.code + '</span>' + esc(c.naam) + '</h2>';
+      var win = [];
+      c.poules.forEach(function (p) {
+        var st = stand(c.code, p), kl = klaar(c.code, p.naam), ws = pouleW(c.code, p.naam), g = ws.filter(function (m) { return TP.uitslag(m, CFG).klaar; }).length;
+        h += '<h3>' + esc(p.naam) + ' · ' + g + '/' + ws.length + ' gespeeld' + (kl ? '' : ' · voorlopige stand') + '</h3><div class="scroll"><table class="stand"><thead><tr><th style="text-align:center">#</th><th>Team</th><th title="Gespeeld">Gs</th><th title="Gewonnen">W</th><th title="Verloren">V</th><th>Sets</th><th>Set%</th><th>Games</th><th>Game%</th></tr></thead><tbody>';
+        st.forEach(function (r, i) {
+          var gelijk = st.filter(function (x) { return x.gewonnen === r.gewonnen && !x.uitgevallen; }).length > 1 && r.gespeeld > 0;
+          h += '<tr class="' + (i === 0 ? 'eerste' : '') + '"><td class="pos">' + (i + 1) + '</td><td>' + esc(teamNaam(r.id)) + ((r.beslist && gelijk) || r.uitgevallen ? '<span class="uitleg">' + esc(r.beslist) + '</span>' : '') + '</td><td>' + r.gespeeld + '</td><td>' + r.gewonnen + '</td><td>' + r.verloren + '</td><td>' + r.sw + '-' + r.sv + '</td><td>' + pct(r.sw, r.sv) + '</td><td>' + r.gw + '-' + r.gv + '</td><td>' + pct(r.gw, r.gv) + '</td></tr>';
+        });
+        h += '</tbody></table></div>'; win.push(kl ? st[0].id : null);
+      });
+      var fm = M.filter(function (m) { return m.cat === c.code && m.finale; })[0];
+      if (fm) {
+        var u = TP.uitslag(fm, CFG), d = deeln(fm);
+        h += '<div class="finale-blok"><b>Finale · ' + esc(slotKort(fm)) + '</b><span>' + esc(naamTeam(fm, 0)) + ' – ' + esc(naamTeam(fm, 1)) + (u.klaar ? ' · <b>' + esc(TP.scoreTekst(fm)) + '</b>' : '') + '</span></div>';
+        if (u.klaar && u.winnaar) h += '<div class="kampioen"><span class="eyebrow" style="opacity:1"><span class="bal"></span>Clubkampioen</span><b>' + esc(teamNaam(d[u.winnaar === 't1' ? 0 : 1])) + '</b></div>';
+      } else if (win.length === 1 && win[0]) h += '<div class="kampioen"><span class="eyebrow" style="opacity:1"><span class="bal"></span>Clubkampioen</span><b>' + esc(teamNaam(win[0])) + '</b></div>';
+      h += '</section>';
+    });
+    return h + '</div><p class="regels">De volgorde in een poule volgt het KNLTB Toernooireglement (art. 38): meeste gewonnen partijen, dan onderling resultaat, setpercentage, gamepercentage en tot slot loting.</p>';
+  }
+  function pct(w, v) { return w + v === 0 ? '–' : Math.round(100 * w / (w + v)) + '%'; }
+
+  /* --- verhindering doorgeven --- */
+  function bericht() {
+    var n = bekend(S.naam), regels = ['Verhindering clubkampioenschappen TC Vollenhove', 'Naam: ' + (n || '…')];
+    if (S.vh.wedstrijd) {
+      var m = M.filter(function (x) { return x.id === S.vh.wedstrijd; })[0];
+      var k = mijnTeam(m, n);
+      regels.push('Kan niet bij: ' + slotKort(m));
+      regels.push('Wedstrijd: ' + m.cat + ' ' + (m.finale ? 'finale' : m.poule) + (k >= 0 ? ', tegen ' + naamTeam(m, 1 - k) : ''));
+    } else {
+      var d = TP.DAGEN[+S.vh.dag], rs = S.vh.rondes.slice().sort();
+      var tijden = rs.length === 3 || !rs.length ? 'de hele ' + (+S.vh.dag === TP.ZATERDAG ? 'middag' : 'avond') : rs.map(function (r) { var t = TP.tijd(+S.vh.dag, r); return 'ronde ' + r + ' (' + t[0] + '–' + t[1] + ')'; }).join(' en ');
+      regels.push('Kan niet op: ' + d.lang + ' ' + d.datum + ', ' + tijden);
+    }
+    if (S.vh.toelichting) regels.push('Toelichting: ' + S.vh.toelichting);
+    return regels.join('\n');
+  }
+  function htmlVerhindering() {
+    var n = bekend(S.naam), C = DATA.contact || {};
+    var h = '<p style="max-width:65ch;margin-top:0">Kun je niet op het tijdstip van een wedstrijd? Geef het zo vroeg mogelijk door. De wedstrijdleiding zoekt dan een nieuw tijdstip en past de planning aan.</p><div class="form">' +
+      '<label class="veld">Je naam<input id="v-naam" list="sp2" placeholder="Typ je naam" value="' + esc(S.naam) + '" autocomplete="name"></label><datalist id="sp2">' + lijstOpties() + '</datalist>';
+    if (n) {
+      var ws = mijnWedstrijden(n).filter(function (m) { return m.dag != null && !TP.uitslag(m, CFG).klaar; });
+      h += '<label class="veld">Waarvoor ben je verhinderd?<select id="v-wedstrijd"><option value="">Een dag of tijd (nog geen wedstrijd)</option>' +
+        ws.map(function (m) { return '<option value="' + m.id + '"' + (S.vh.wedstrijd === m.id ? ' selected' : '') + '>' + esc(m.cat + ' · ' + slotKort(m)) + '</option>'; }).join('') + '</select></label>';
+      if (!S.vh.wedstrijd) {
+        h += '<div class="rij"><label class="veld">Dag<select id="v-dag">' + TP.DAGEN.map(function (d, i) { return '<option value="' + i + '"' + (+S.vh.dag === i ? ' selected' : '') + '>' + d.lang + ' ' + d.datum + '</option>'; }).join('') + '</select></label>' +
+          '<div class="veld">Rondes<div style="display:flex;gap:12px;padding:6px 0">' + [1, 2, 3].map(function (r) { var t = TP.tijd(+S.vh.dag, r); return '<label class="chk"><input type="checkbox" data-r="' + r + '"' + (S.vh.rondes.indexOf(r) >= 0 ? ' checked' : '') + '> ' + t[0] + '</label>'; }).join('') + '</div></div></div>';
+      }
+      h += '<label class="veld">Toelichting (optioneel)<input id="v-toel" placeholder="Bijv. pas vanaf 20:00 beschikbaar" value="' + esc(S.vh.toelichting) + '"></label>' +
+        '<div class="veld">Je bericht<pre class="bericht" id="v-bericht">' + esc(bericht()) + '</pre></div>' +
+        '<div class="knoppen"><a class="knop hoofd" id="v-wa" target="_blank" rel="noopener" href="' + waLink() + '">Verstuur via WhatsApp</a><button class="knop" id="v-kopie" type="button">Kopieer bericht</button></div>';
+      var c = [];
+      if (C.whatsapp) c.push('WhatsApp: <b>' + esc(C.whatsappTekst || C.whatsapp) + '</b>');
+      if (C.email) c.push('e-mail: <b>' + esc(C.email) + '</b>');
+      h += '<div class="contact">' + (c.length ? 'Stuur je bericht naar de wedstrijdleiding' + (C.naam ? ' (' + esc(C.naam) + ')' : '') + ' via ' + c.join(' of ') + '.' : 'Stuur je bericht naar de wedstrijdleiding.') + '</div>';
+    } else if (S.naam) h += '<div class="contact">Deze naam staat niet in de deelnemerslijst. Kies je naam uit de lijst.</div>';
+    return h + '</div>';
+  }
+  function waLink() { var C = DATA.contact || {}; return 'https://wa.me/' + (C.whatsapp || '') + '?text=' + encodeURIComponent(bericht()); }
+  function updBericht() { var b = $('#v-bericht'); if (b) b.textContent = bericht(); var a = $('#v-wa'); if (a) a.href = waLink(); }
+
+  function zetNaam(v) { S.naam = v.trim(); try { localStorage.setItem('tp-d-naam', S.naam); } catch (e) {} }
+  function bind() {
+    var mn = $('#m-naam'); if (mn) mn.addEventListener('change', function () { zetNaam(mn.value); render(); });
+    document.querySelectorAll('[data-kanniet]').forEach(function (b) { b.addEventListener('click', function () { S.vh.wedstrijd = b.dataset.kanniet; S.tab = 'verhindering'; window.scrollTo(0, 0); render(); }); });
+    var vn = $('#v-naam'); if (vn) vn.addEventListener('change', function () { zetNaam(vn.value); S.vh.wedstrijd = ''; render(); });
+    var vw = $('#v-wedstrijd'); if (vw) vw.addEventListener('change', function () { S.vh.wedstrijd = vw.value; render(); });
+    var vd = $('#v-dag'); if (vd) vd.addEventListener('change', function () { S.vh.dag = vd.value; render(); });
+    document.querySelectorAll('[data-r]').forEach(function (c) { c.addEventListener('change', function () { var r = +c.dataset.r; S.vh.rondes = S.vh.rondes.filter(function (x) { return x !== r; }); if (c.checked) S.vh.rondes.push(r); updBericht(); }); });
+    var vt = $('#v-toel'); if (vt) vt.addEventListener('input', function () { S.vh.toelichting = vt.value.trim(); updBericht(); });
+    var kp = $('#v-kopie'); if (kp) kp.addEventListener('click', function () {
+      var t = bericht();
+      try { navigator.clipboard.writeText(t).then(function () { toast('Bericht gekopieerd'); }, selecteer); } catch (e) { selecteer(); }
+    });
+  }
+  function selecteer() { var b = $('#v-bericht'); var r = document.createRange(); r.selectNodeContents(b); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Bericht geselecteerd – kopieer het met Ctrl+C of lang indrukken'); }
+  document.querySelectorAll('.tab').forEach(function (b) { b.addEventListener('click', function () { S.tab = b.dataset.tab; window.scrollTo(0, 0); render(); }); });
+  var tt = 0;
+  function toast(t) { var el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(tt); tt = setTimeout(function () { el.hidden = true; }, 3000); }
+  render();
+})();
+</script>
+
+</body>
+</html>

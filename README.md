@@ -1,2 +1,3 @@
-# clubkampioenschappen-2026
-deelnemerspagina TCV Clubkampioenschappen 2026
+# Clubkampioenschappen TC Vollenhove 2026
+
+Deelnemersprogramma (planning, standen, verhindering doorgeven). Wordt automatisch bijgewerkt vanuit de toernooiplanner.
